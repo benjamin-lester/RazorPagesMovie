@@ -48,7 +48,7 @@ jobs:
           ls -al ~/.ssh/known_hosts
           scp -r * zork@$SERVER_IP:/home/zork/testgithub
     env:
-      SSH_PRIVATE_KEY: ${{secrets.SSH_KEY}}
+      SSH_PRIVATE_KEY: ${{secrets.KEY}}
       SERVER_IP: ${{secrets.BNLSTR_SERVER_IP}}
       CI: false
   # end delete section
