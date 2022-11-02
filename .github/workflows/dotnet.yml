@@ -8,6 +8,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch: # lets us trigger action manually
 
 jobs:
   build:
@@ -26,3 +27,20 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    - name: SSH Remote Commands
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.BNLSTR_SERVER_IP }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        # port: ${{ secrets.PORT }}
+        script: |
+          whoami
+          ls -al
