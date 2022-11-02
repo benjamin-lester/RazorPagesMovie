@@ -1,0 +1,7 @@
+C:\Users\abenl\OneDrive\Desktop\VS Code Repos\Bnlstr.com\RazorPagesMovie\bin\Debug\net6.0\publish\RazorPagesMovie.exe
+C:\Users\abenl\OneDrive\Desktop\VS Code Repos\Bnlstr.com\RazorPagesMovie\bin\Debug\net6.0\publish\appsettings.Development.json
+C:\Users\abenl\OneDrive\Desktop\VS Code Repos\Bnlstr.com\RazorPagesMovie\bin\Debug\net6.0\publish\appsettings.json
+C:\Users\abenl\OneDrive\Desktop\VS Code Repos\Bnlstr.com\RazorPagesMovie\bin\Debug\net6.0\publish\RazorPagesMovie.dll
+C:\Users\abenl\OneDrive\Desktop\VS Code Repos\Bnlstr.com\RazorPagesMovie\bin\Debug\net6.0\publish\RazorPagesMovie.deps.json
+C:\Users\abenl\OneDrive\Desktop\VS Code Repos\Bnlstr.com\RazorPagesMovie\bin\Debug\net6.0\publish\RazorPagesMovie.runtimeconfig.json
+C:\Users\abenl\OneDrive\Desktop\VS Code Repos\Bnlstr.com\RazorPagesMovie\bin\Debug\net6.0\publish\RazorPagesMovie.pdb
