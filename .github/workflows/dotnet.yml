@@ -1,0 +1,68 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: RazorPagesMovie .NET deployment
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: # lets us trigger action manually
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+  
+  # deploy test - can we delete?
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy
+        run: |
+          which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+          which rsync || ( apt-get update -y && apt-get install rsync -y )
+          eval $(ssh-agent -s)
+          ssh-add <(echo "$SSH_PRIVATE_KEY")
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          ls -al ~/.ssh
+          ls -al ~/.ssh/known_hosts
+          scp -r * zork@$SERVER_IP:/home/zork/testRazorPages
+    env:
+      SSH_PRIVATE_KEY: ${{secrets.SSH_KEY}}
+      SERVER_IP: ${{secrets.BNLSTR_SERVER_IP}}
+      CI: false
+  # end delete section
+  
+  sshtest:
+    runs-on: ubuntu-latest
+    steps:
+    - name: SSH Remote Commands
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.BNLSTR_SERVER_IP }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        # port: ${{ secrets.PORT }}
+        script: |
+          whoami
+          ls -al
