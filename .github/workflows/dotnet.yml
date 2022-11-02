@@ -46,9 +46,9 @@ jobs:
           chmod 644 ~/.ssh/known_hosts
           ls -al ~/.ssh
           ls -al ~/.ssh/known_hosts
-          scp -r * zork@$SERVER_IP:/home/zork/testgithub
+          scp -r * zork@$SERVER_IP:/home/zork/testRazorPages
     env:
-      SSH_PRIVATE_KEY: ${{secrets.KEY}}
+      SSH_PRIVATE_KEY: ${{secrets.SSH_KEY}}
       SERVER_IP: ${{secrets.BNLSTR_SERVER_IP}}
       CI: false
   # end delete section
@@ -60,8 +60,8 @@ jobs:
       uses: appleboy/ssh-action@v0.1.5
       with:
         host: ${{ secrets.BNLSTR_SERVER_IP }}
-        username: zork
-        key: ${{ secrets.KEY }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
         # port: ${{ secrets.PORT }}
         script: |
           whoami
