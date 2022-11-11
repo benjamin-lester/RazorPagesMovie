@@ -4,7 +4,9 @@
 name: RazorPagesMovie .NET deployment
 
 env:
-   website: bnlstr.com
+   WEBSITE: bnlstr.com
+   PROJECT: RazorPagesMovie
+   DOTNET_VERSION: net6.0
    
 on:
   push:
@@ -27,7 +29,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet publish --no-restore -c Release
     - name: Test
       run: dotnet test --no-build --verbosity normal
   
@@ -47,7 +49,7 @@ jobs:
           chmod 700 ~/.ssh
           ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
-          scp -r * zork@$SERVER_IP:/var/www/$website
+          scp -r ./bin/Release/$DOTNET_VERSION/publish/* zork@$SERVER_IP:/var/www/$WEBSITE
     env:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
       SERVER_IP: ${{ secrets.BNLSTR_SERVER_IP }}
@@ -64,8 +66,10 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          echo "Host: ",$host
-          echo "Website ",$website
+          echo "Host: "
+          echo $host
+          echo "Website "
+          echo $website
           ls -al 2>/dev/null
           ls -al /var/www/$website 2>/dev/null
-          dotnet --version
+          dotnet --info
