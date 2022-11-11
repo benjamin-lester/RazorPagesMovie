@@ -44,15 +44,12 @@ jobs:
           chmod 700 ~/.ssh
           ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
-          # ls -al ~/.ssh
-          # ls -al ~/.ssh/known_hosts
-          # scp -r * zork@$SERVER_IP:/home/zork/testRazorPages
+          scp -r * zork@$SERVER_IP:/home/zork/testRazorPages
     env:
-      SSH_PRIVATE_KEY: ${{secrets.SSH_KEY}}
-      SERVER_IP: ${{secrets.BNLSTR_SERVER_IP}}
-      
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+      SERVER_IP: ${{ secrets.BNLSTR_SERVER_IP }}
+      USERNAME: ${{ secrets.USERNAME }}
       CI: false
-  # end delete section
   
   sshtest:
     runs-on: ubuntu-latest
@@ -63,9 +60,9 @@ jobs:
         host: ${{ secrets.BNLSTR_SERVER_IP }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
-        # port: ${{ secrets.PORT }}
-        website: bnlstr.com
+        website: "bnlstr.com"
         script: |
+          echo $host
           scp -r * $username@$host:/var/www/$website
           ls -al 2>/dev/null
           ls -al /var/www/$website 2>/dev/null
