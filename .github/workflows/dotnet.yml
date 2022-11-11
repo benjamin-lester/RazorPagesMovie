@@ -51,6 +51,8 @@ jobs:
           chmod 644 ~/.ssh/known_hosts
           pwd
           ls -al ./
+          echo "Bin LS"
+          ls ../bin
           scp -r ../bin/Release/$DOTNET_VERSION/publish/* zork@$SERVER_IP:/var/www/$WEBSITE
     env:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
