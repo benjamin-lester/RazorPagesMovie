@@ -49,15 +49,15 @@ jobs:
           ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
           pwd
-          ls -al bin/
+          ls -al 
+          echo $GITHUB_WORKSPACE/Publish
           #scp -r /home/runner/work/RazorPagesMovie/RazorPagesMovie/bin/* $USERNAME@$SERVER_IP:/var/www/$WEBSITE
-          scp -r Publish/* $USERNAME@$SERVER_IP:/var/www/$WEBSITE
+          scp -r $GITHUB_WORKSPACE/Publish/* $USERNAME@$SERVER_IP:/var/www/$WEBSITE
           ls -al bin/
     env:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
       SERVER_IP: ${{ secrets.BNLSTR_SERVER_IP }}
       USERNAME: ${{ secrets.USERNAME }}
-      CI: false
   
   sshcommands:
     runs-on: ubuntu-latest
