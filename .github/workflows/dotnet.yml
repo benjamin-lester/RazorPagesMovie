@@ -49,8 +49,8 @@ jobs:
           ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
           pwd
-          ls -al ./
-          scp -r /home/runner/work/RazorPagesMovie/RazorPagesMovie/bin/Release/net6.0/publish/* zork@$SERVER_IP:/var/www/$WEBSITE
+          ls -al bin/
+          scp -r /home/runner/work/RazorPagesMovie/RazorPagesMovie/bin/* zork@$SERVER_IP:/var/www/$WEBSITE
           #scp -r /home/runner/work/$PROJECT/$PROJECT/bin/Release/$DOTNET_VERSION/publish/* zork@$SERVER_IP:/var/www/$WEBSITE
           ls -al bin/
     env:
