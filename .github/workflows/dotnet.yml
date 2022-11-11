@@ -1,4 +1,4 @@
-# This workflow will build a .NET project
+# This workflow builds .NET project, copies the publish/ folder to the droplet, and deploys the changes by starting the web server.
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
 name: RazorPagesMovie .NET deployment
@@ -28,7 +28,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
   
-  # deploy test - can we delete?
+  # deploy
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -44,12 +44,13 @@ jobs:
           chmod 700 ~/.ssh
           ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
-          ls -al ~/.ssh
-          ls -al ~/.ssh/known_hosts
-          scp -r * zork@$SERVER_IP:/home/zork/testRazorPages
+          # ls -al ~/.ssh
+          # ls -al ~/.ssh/known_hosts
+          # scp -r * zork@$SERVER_IP:/home/zork/testRazorPages
     env:
       SSH_PRIVATE_KEY: ${{secrets.SSH_KEY}}
       SERVER_IP: ${{secrets.BNLSTR_SERVER_IP}}
+      
       CI: false
   # end delete section
   
@@ -63,6 +64,9 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         # port: ${{ secrets.PORT }}
+        website: bnlstr.com
         script: |
-          whoami
-          ls -al
+          scp -r * $username@$host:/var/www/$website
+          ls -al 2>/dev/null
+          ls -al /var/www/$website 2>/dev/null
+      
