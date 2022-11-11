@@ -27,7 +27,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet publish --no-restore -c Release
+      run: dotnet publish --no-restore -o Publish
     - name: Test
       run: dotnet test --no-build --verbosity normal
   
@@ -50,8 +50,8 @@ jobs:
           chmod 644 ~/.ssh/known_hosts
           pwd
           ls -al bin/
-          scp -r /home/runner/work/RazorPagesMovie/RazorPagesMovie/bin/* zork@$SERVER_IP:/var/www/$WEBSITE
-          #scp -r /home/runner/work/$PROJECT/$PROJECT/bin/Release/$DOTNET_VERSION/publish/* zork@$SERVER_IP:/var/www/$WEBSITE
+          #scp -r /home/runner/work/RazorPagesMovie/RazorPagesMovie/bin/* $USERNAME@$SERVER_IP:/var/www/$WEBSITE
+          scp -r Publish/* $USERNAME@$SERVER_IP:/var/www/$WEBSITE
           ls -al bin/
     env:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
