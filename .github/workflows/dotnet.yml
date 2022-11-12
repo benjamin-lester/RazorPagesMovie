@@ -40,28 +40,13 @@ jobs:
         chmod 700 ~/.ssh
         ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
         chmod 644 ~/.ssh/known_hosts
-        pwd
-        ls -al 
         find Publish
-        echo $GITHUB_WORKSPACE/Publish
         #scp -r /home/runner/work/RazorPagesMovie/RazorPagesMovie/bin/* $USERNAME@$SERVER_IP:/var/www/$WEBSITE
         scp -r "$GITHUB_WORKSPACE"/Publish/* $USERNAME@$SERVER_IP:/var/www/$WEBSITE
-        ls -al bin/
     env:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
       SERVER_IP: ${{ secrets.BNLSTR_SERVER_IP }}
-      USERNAME: ${{ secrets.USERNAME }}
-  
-  
-  # deploy
-#  deploy:
-#    runs-on: ubuntu-latest
- #   needs: build
-  #  steps:    
-   # - name: Checkout
-    #  uses: actions/checkout@v3
-
-  
+      USERNAME: ${{ secrets.USERNAME }} 
   sshcommands:
     runs-on: ubuntu-latest
     needs: build
@@ -73,10 +58,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          echo "Host: "
-          echo $host
-          echo "Website "
-          echo $website
-          ls -al 2>/dev/null
-          ls -al /var/www/$website 2>/dev/null
+          ls -al /var/www/$WEBSITE 2>/dev/null
+          # cd /var/www/$WEBSITE
+          systemctl restart dotnet-bnlstr.com.service # Just need to figure out how to authenticate here
           dotnet --info
